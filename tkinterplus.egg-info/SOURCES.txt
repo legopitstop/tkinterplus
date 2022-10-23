@@ -1,0 +1,17 @@
+LICENSE
+README.md
+setup.cfg
+setup.py
+tkinterplus/SpriteSheet.py
+tkinterplus/__init__.py
+tkinterplus/constants.py
+tkinterplus/format.py
+tkinterplus/modalbox.py
+tkinterplus/modaldialog.py
+tkinterplus/simplemodal.py
+tkinterplus/util.py
+tkinterplus.egg-info/PKG-INFO
+tkinterplus.egg-info/SOURCES.txt
+tkinterplus.egg-info/dependency_links.txt
+tkinterplus.egg-info/requires.txt
+tkinterplus.egg-info/top_level.txt

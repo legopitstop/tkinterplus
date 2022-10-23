@@ -1,3 +1,22 @@
+Metadata-Version: 2.1
+Name: tkinterplus
+Version: 1.0.0
+Summary: Tkinterplus is a python UI library that adds more widgets to Tkinter
+Home-page: https://github.com/legopitstop/tkinterplus/
+Author: Legopitstop
+Author-email: officiallegopitstop@gmail.com
+License: MIT
+Keywords: tkinter,widgets,pygame,Pillow
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Programming Language :: Python :: 3.9
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 # Tkinterplus
 Tkinterplus is a python UI library that adds more widgets to Tkinter
 
