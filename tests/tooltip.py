@@ -46,6 +46,6 @@ static_tip = Tooltip(lbl2, text='This tooltip will not follow the mouse!\nEnter 
 Entry(static_tip, textvariable=var).pack()
 
 custom_tip = Tooltip(lbl3, bg='blue',ipadx=5, ipady=5, borderwidth=4)
-Picture(custom_tip, bg='blue', fg='white', image=Image.open(os.path.join(LOCAL, 'images', 'sample.png')), text='Hello World').pack()
+Picture(custom_tip, bg='blue', fg='white', image=Image.open(os.path.join(LOCAL, 'assets', 'sample.png')), text='Hello World').pack()
 
 root.mainloop()

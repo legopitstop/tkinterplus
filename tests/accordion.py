@@ -1,4 +1,4 @@
-from tkinter import BOTH, EW, Message, Button, StringVar, Tk, Label
+from tkinter import EW, Message, Button, StringVar, Tk
 from tkinterplus import Accordion
 import os
 
@@ -32,8 +32,7 @@ widget3 = Accordion(root, text='Section 4', name='4', variable=test)
 Message(widget3, text=section4).pack(expand=True)
 widget3.grid(row=3,column=0, sticky=EW, padx=20, pady=4)
 
-
-Button(root, text='Click Me!', command=lambda: print(test.get())).grid(row=4,column=0)
+Button(root, text='Click Me!', command=lambda: print('Opened', test.get())).grid(row=4,column=0)
 
 # Responsive
 root.grid_columnconfigure(0, weight=1)

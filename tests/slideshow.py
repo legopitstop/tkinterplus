@@ -9,10 +9,10 @@ root = Tk()
 root.minsize(500,500)
 
 images = [
-    Image.open(os.path.join(LOCAL, 'images', 'barrel_bottom.png')),
-    Image.open(os.path.join(LOCAL, 'images', 'barrel_side.png')),
-    Image.open(os.path.join(LOCAL, 'images', 'barrel_top_open.png')),
-    Image.open(os.path.join(LOCAL, 'images', 'barrel_top.png'))
+    Image.open(os.path.join(LOCAL, 'assets', 'barrel_bottom.png')),
+    Image.open(os.path.join(LOCAL, 'assets', 'barrel_side.png')),
+    Image.open(os.path.join(LOCAL, 'assets', 'barrel_top_open.png')),
+    Image.open(os.path.join(LOCAL, 'assets', 'barrel_top.png'))
 ]
 
 widget = Slideshow(root, images=images, width=200, height=200, buttons=True, state=DISABLED)

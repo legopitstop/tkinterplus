@@ -1,16 +1,10 @@
 from tkinter import Frame, Tk, StringVar, colorchooser, filedialog, Button, Entry, Spinbox, Label
-from tktooltip import ToolTip
 import os
 import re
 
-class Input(Frame):
-    COLOR='color'
-    TEXT='text'
-    PASSWORD='password'
-    NUMBER ='number'
-    FILE='file'
-    DIRECTORY='directory'
+from .. import Tooltip
 
+class Input(Frame):
     def __init__(self, master:Tk=None,type='text',**kw):
         """A more advanced Entry widget aviable in more types."""
         Frame.__init__(self, master)
@@ -112,7 +106,7 @@ class Input(Frame):
             FILEL = Label(self,text=D)
             FILEL.bind('<Button-1>', lambda e: _file())
             FILEL.grid(row=0,column=1)
-            FILET = ToolTip(FILEL,msg=T)
+            FILET = Tooltip(FILEL,text=T)
 
         elif type=='directory':
             FILEB = Button(self,text='Choose Directory',command=_directory)
@@ -130,7 +124,7 @@ class Input(Frame):
             FILEL = Label(self,text=D)
             FILEL.bind('<Button-1>', lambda e: _directory())
             FILEL.grid(row=0,column=1)
-            FILET = ToolTip(FILEL,msg=T)
+            FILET = Tooltip(FILEL,text=T)
 
     def _callback(self,input:str):
         """Validate entry"""

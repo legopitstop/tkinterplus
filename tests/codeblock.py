@@ -1,4 +1,4 @@
-from tkinter import END, EW, Tk
+from tkinter import EW, Tk
 from tkinterplus import CodeBlock
 
 root = Tk()

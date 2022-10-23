@@ -45,8 +45,24 @@ UNORDERED_LIST='unordered_list.png'
 FOREGROUND_COLOR='foreground_color.png'
 BACKGROUND_COLOR='background_color.png'
 UNDERLINED='underlined.png'
-
 KEYBOARD_ARROW_LEFT = 'keyboard_arrow_left.png'
 KEYBOARD_ARROW_RIGHT = 'keyboard_arrow_right.png'
 KEYBOARD_ARROW_UP = 'keyboard_arrow_up.png'
 KEYBOARD_ARROW_DOWN = 'keyboard_arrow_down.png'
+
+# Context Type
+REDO='redo'
+UNDO='undo'
+CUT='cut'
+COPY='copy'
+PASTE='paste'
+DELETE='delete'
+SELECT_ALL='select_all'
+
+# Input Types
+COLOR='color'
+TEXT='text'
+PASSWORD='password'
+NUMBER ='number'
+FILE='file'
+DIRECTORY='directory'

@@ -1,4 +1,6 @@
 import setuptools
+import os
+LOCAL = os.path.dirname(os.path.realpath(__file__))
 
 with open('README.md') as f:
     long_description = f.read()
@@ -7,13 +9,20 @@ required_modules = ["Pillow", "pygame"]
 
 setuptools.setup(
     name='tkinterplus',
-    version='1.0.0',
+    version='1.0.2',
     author='Legopitstop',
     description='Tkinterplus is a python UI library that adds more widgets to Tkinter',
     long_description=long_description,
     long_description_content_type="text/markdown",
     url='https://github.com/legopitstop/tkinterplus/',
-    packages=setuptools.find_packages(),
+    packages=[
+        'tkinterplus',
+        'tkinterplus.windows',
+        'tkinterplus.widgets',
+        'tkinterplus.experimental_widgets'
+    ],
+    include_package_data=True,
+    package_data={'': ['assets/**']},
     install_requires=required_modules,
     license='MIT',
     keywords=['tkinter', 'widgets', 'pygame', 'Pillow'],

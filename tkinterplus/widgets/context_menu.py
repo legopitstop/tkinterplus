@@ -1,20 +1,15 @@
-from tkinter import INSERT, SEL_FIRST, SEL_LAST, SEL, END, Text, Menu, Tk
+from tkinter import DISABLED, INSERT, NORMAL, SEL_FIRST, SEL_LAST, SEL, END, Text, Menu, Tk
 from _tkinter import TclError
-from enum import Enum
 
 class ContextMenu(Menu):
-    REDO='redo'
-    UNDO='undo'
-    CUT='cut'
-    COPY='copy'
-    PASTE='paste'
-    DELETE='delete'
-    SELECT_ALL='select_all'
     def __init__(self,master: Tk,showcommand=None):
         """Make a right click context menu."""
+        Menu.__init__(self,master, tearoff=False)
         self.master=master
-        Menu.__init__(self,master, tearoff=0)
-        self.config(showcommand)
+        self.state = NORMAL
+        self.showcommand = None
+        self.enable()
+        self.configure(showcommand=showcommand)
 
     def _mouse(self,e):
         """Internal Function"""
@@ -22,19 +17,15 @@ class ContextMenu(Menu):
         try: self.tk_popup(e.x_root, e.y_root, 0)
         finally: self.grab_release()
 
-    def config(self,showcommand=None,state=None):
+    def conifgure(self,**kw):
         """Config the context menu"""
-        if showcommand!=None: self.showcommand = showcommand
-
-        # Disable menu if master is disabled.
-        try:
-            st = self.master['state']
-            if st=='normal':
-                self.enable()
-            elif st=='disabled' or st=='readonly':
-                self.disable()
-
-        except: self.enable()
+        if 'showcommand' in kw and kw['showcommand']!=None: self.showcommand = kw['showcommand']
+        if 'state' in kw and kw['state']!=None:
+            self.state = kw['state']
+            if self.state==NORMAL: self.enable()
+            elif self.state==DISABLED or self.state=='readonly': self.disable()
+    config = conifgure
+    
 
     def _app(self,e):
         """Internal Function"""
@@ -133,13 +124,3 @@ class ContextMenu(Menu):
         except: pass
 
         self.add('command', cnf or kw)
-
-class ContextMenuType(Enum):
-    """"ContextMenuType deprived! use `ContextMenu.<type>` instead"""
-    REDO=staticmethod('redo')
-    UNDO=staticmethod('undo')
-    CUT=staticmethod('cut')
-    COPY=staticmethod('copy')
-    PASTE=staticmethod('paste')
-    DELETE=staticmethod('delete')
-    SELECT_ALL=staticmethod('select_all')
