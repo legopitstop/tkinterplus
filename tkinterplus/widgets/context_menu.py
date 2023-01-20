@@ -1,12 +1,12 @@
-from tkinter import DISABLED, INSERT, NORMAL, SEL_FIRST, SEL_LAST, SEL, END, Text, Menu, Tk
-from _tkinter import TclError
+import tkinter
+import _tkinter
 
-class ContextMenu(Menu):
-    def __init__(self,master: Tk,showcommand=None):
+class ContextMenu(tkinter.Menu):
+    def __init__(self,master: tkinter.Tk,showcommand=None):
         """Make a right click context menu."""
-        Menu.__init__(self,master, tearoff=False)
+        tkinter.Menu.__init__(self,master, tearoff=False)
         self.master=master
-        self.state = NORMAL
+        self.state = tkinter.NORMAL
         self.showcommand = None
         self.enable()
         self.configure(showcommand=showcommand)
@@ -22,8 +22,8 @@ class ContextMenu(Menu):
         if 'showcommand' in kw and kw['showcommand']!=None: self.showcommand = kw['showcommand']
         if 'state' in kw and kw['state']!=None:
             self.state = kw['state']
-            if self.state==NORMAL: self.enable()
-            elif self.state==DISABLED or self.state=='readonly': self.disable()
+            if self.state==tkinter.NORMAL: self.enable()
+            elif self.state==tkinter.DISABLED or self.state=='readonly': self.disable()
     config = conifgure
     
 
@@ -67,35 +67,35 @@ class ContextMenu(Menu):
                     return True
                 else:
                     return False
-            except TclError:
+            except _tkinter.TclError:
                 return False
 
         def paste():
             delete()
             focus = self.focus_get()
-            focus.insert(focus.index(INSERT), focus.clipboard_get())
+            focus.insert(focus.index(tkinter.INSERT), focus.clipboard_get())
             return True
 
         def delete():
             focus = self.focus_get()
             try:
-                first =focus.index(SEL_FIRST)
-                last=focus.index(SEL_LAST)
+                first =focus.index(tkinter.SEL_FIRST)
+                last=focus.index(tkinter.SEL_LAST)
                 focus.delete(first,last)
                 return True
-            except TclError:
+            except _tkinter.TclError:
                 return False
 
         def select_all():
             focus = self.focus_get()
-            focus.tag_add(SEL, "1.0", END)
-            focus.mark_set(INSERT, "1.0")
-            focus.see(INSERT)
+            focus.tag_add(tkinter.SEL, "1.0", tkinter.END)
+            focus.mark_set(tkinter.INSERT, "1.0")
+            focus.see(tkinter.INSERT)
             return True
 
         def undo():
             try:
-                focus:Text = self.focus_get()
+                focus:tkinter.Text = self.focus_get()
                 focus.edit_undo()
                 return True
             except AttributeError:
@@ -103,10 +103,10 @@ class ContextMenu(Menu):
         
         def redo():
             try:
-                focus:Text = self.focus_get()
+                focus:tkinter.Text = self.focus_get()
                 focus.edit_redo()
                 return True
-            except TclError:
+            except _tkinter.TclError:
                 return False
             except AttributeError:
                 return False

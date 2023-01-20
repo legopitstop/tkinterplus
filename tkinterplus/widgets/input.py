@@ -1,17 +1,18 @@
-from tkinter import Frame, Tk, StringVar, colorchooser, filedialog, Button, Entry, Spinbox, Label
+import tkinter
+import tkinter.colorchooser as colorchooser
+import tkinter.filedialog as filedialog
 import os
 import re
+from ..experimental import Tooltip
 
-from .. import Tooltip
-
-class Input(Frame):
-    def __init__(self, master:Tk=None,type='text',**kw):
-        """A more advanced Entry widget aviable in more types."""
-        Frame.__init__(self, master)
+class Input(tkinter.Frame):
+    def __init__(self, master:tkinter.Tk=None,type='text',**kw):
+        """Construct an input widget with the parent MASTER."""
+        tkinter.Frame.__init__(self, master)
 
         # Textvar
-        try: VALUE:StringVar = kw['textvariable']
-        except: VALUE:StringVar=''
+        try: VALUE:tkinter.StringVar = kw['textvariable']
+        except: VALUE:tkinter.StringVar=''
         try: self.pattern = kw['pattern']
         except: self.pattern= r'.*'
         self._call = master.register(self._callback)
@@ -66,16 +67,16 @@ class Input(Frame):
         if type=='color':
             try: C = VALUE.get()
             except: C='#ffffff'
-            COLOR = Button(self,text=C,bg=C,activebackground=C,command=_color)
+            COLOR = tkinter.Button(self,text=C,bg=C,activebackground=C,command=_color)
             COLOR.pack()
 
         elif type=='text':
-            TEXT=Entry(self,textvariable=VALUE)
+            TEXT=tkinter.Entry(self,textvariable=VALUE)
             TEXT.config(validate='key', validatecommand=(self._call, '%P'))
             TEXT.pack()
 
         elif type=='password':
-            TEXT=Entry(self,textvariable=VALUE,show='*')
+            TEXT=tkinter.Entry(self,textvariable=VALUE,show='*')
             TEXT.config(validate='key', validatecommand=(self._call, '%P'))
             TEXT.pack()
             
@@ -86,12 +87,12 @@ class Input(Frame):
             except: MAX=1000
 
             self.pattern = r'^[0-9]{0,}$|^-[0-9]{0,}$'
-            TEXT=Spinbox(self,textvariable=VALUE,from_=MIN,to=MAX)
+            TEXT=tkinter.Spinbox(self,textvariable=VALUE,from_=MIN,to=MAX)
             TEXT.config(validate='key', validatecommand=(self._call, '%P'))
             TEXT.pack()
 
         elif type=='file':
-            FILEB = Button(self,text='Choose File',command=_file)
+            FILEB = tkinter.Button(self,text='Choose File',command=_file)
             FILEB.grid(row=0,column=0)
             try:
                 if VALUE.get()!='':
@@ -103,13 +104,13 @@ class Input(Frame):
             except:
                 D='No file chosen'
                 T='No file chosen'
-            FILEL = Label(self,text=D)
+            FILEL = tkinter.Label(self,text=D)
             FILEL.bind('<Button-1>', lambda e: _file())
             FILEL.grid(row=0,column=1)
             FILET = Tooltip(FILEL,text=T)
 
         elif type=='directory':
-            FILEB = Button(self,text='Choose Directory',command=_directory)
+            FILEB = tkinter.Button(self,text='Choose Directory',command=_directory)
             FILEB.grid(row=0,column=0)
             try:
                 if VALUE.get()!='':
@@ -121,7 +122,7 @@ class Input(Frame):
             except:
                 D='No directory chosen'
                 T='No directory chosen'
-            FILEL = Label(self,text=D)
+            FILEL = tkinter.Label(self,text=D)
             FILEL.bind('<Button-1>', lambda e: _directory())
             FILEL.grid(row=0,column=1)
             FILET = Tooltip(FILEL,text=T)

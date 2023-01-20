@@ -1,23 +1,24 @@
-from tkinter import LEFT, RIGHT, BOTH, Frame, Canvas, Scrollbar, Misc, Event
+import tkinter
+from .. import BaseWidgetPlus
 
-class ScrolledFrame(Misc):
+class ScrolledFrame(BaseWidgetPlus):
     def __init__(self, container, bg_color:str=None, **kw):
-        """Create a scrollable frame"""
+        """Construct a scrolledframe widget with the parent MASTER."""
         self.bg_color = '#f0f0f0'
 
-        self._container = Frame(container)
+        self._container = tkinter.Frame(container)
 
-        self._canvas = Canvas(self._container, bd=0, highlightthickness=0, bg=self.bg_color)
+        self._canvas = tkinter.Canvas(self._container, bd=0, highlightthickness=0, bg=self.bg_color)
         self._canvas.bind('<Enter>', self._on_enter)
         self._canvas.bind('<Leave>', self._on_leave)
 
-        self._scrollbar = Scrollbar(self._container, orient="vertical", command=self._canvas.yview)
-        self.frame = Frame(self._canvas, bg=self.bg_color)
+        self._scrollbar = tkinter.Scrollbar(self._container, orient="vertical", command=self._canvas.yview)
+        self.frame = tkinter.Frame(self._canvas, bg=self.bg_color)
         self.frame.bind("<Configure>",lambda e: self._canvas.configure(scrollregion=self._canvas.bbox("all")))
         self._canvas.create_window((0, 0), window=self.frame, anchor="nw")
         self._canvas.configure(yscrollcommand=self._scrollbar.set)
-        self._canvas.pack(side=LEFT, fill=BOTH, expand=True)
-        self._scrollbar.pack(side=RIGHT, fill='y')
+        self._canvas.pack(side=tkinter.LEFT, fill=tkinter.BOTH, expand=True)
+        self._scrollbar.pack(side=tkinter.RIGHT, fill='y')
 
         self.configure(bg_color=bg_color)
 
@@ -25,10 +26,11 @@ class ScrolledFrame(Misc):
         self.children = self.frame.children
         self.tk = self.frame.tk
         self._w = self.frame._w
+        super().__init__(self)
 
-    def _on_mouse_wheel(self, e:Event): self._canvas.yview_scroll( int(-1*(e.delta/120)) , "units")
-    def _on_enter(self, e:Event): self._canvas.bind_all('<MouseWheel>', self._on_mouse_wheel)
-    def _on_leave(self, e:Event): self._canvas.unbind_all('<MouseWheel>')
+    def _on_mouse_wheel(self, e:tkinter.Event): self._canvas.yview_scroll( int(-1*(e.delta/120)) , "units")
+    def _on_enter(self, e:tkinter.Event): self._canvas.bind_all('<MouseWheel>', self._on_mouse_wheel)
+    def _on_leave(self, e:tkinter.Event): self._canvas.unbind_all('<MouseWheel>')
 
     # NOT ADDED
 

@@ -1,49 +1,119 @@
 # IDEAS
 ## DUMP
 - Better Menu() - add bind text on right - better hover coloring (no margin)
-- Photo Editor. A simple image editor widget using PIL and canvas to create, or edit an image.
-- Add support for customtkinter
-- Tooltip using Frame.place() to create a 100% custom tooltip. Could also include a sub-widget that simply has the label already inside for displaying text tips.
+- Photo Editor. A simple image editor widget using PIL and canvas to resize an image (pfp)
+- Add support for `customtkinter`
 - translate method to translate text using a locale JSON. Will attempt to get the user's locale.
+- Universal animation class (both for widgets and canvas items) that can translate, rotate, or scale
+
+## Icons - Change
+- If the script is unable to download the icon (no internet, in offline mode or another issue) it should use the default "Missing" icon.
+- It should create a new thread when it is downloading the icons. MaterialIconManager
+
+## Windows
 
 ## Widgets
+### WebFrame
+A widget that can render websites. Similar to HTML's `iframe` tag. Needs a JavaScript interpreter.
+
+When focused you can press "control-u" for view page source or "control-C" to open developer tools
+
+Developer Tools
+- tools to view the page source.
+
+context menu
+- reload (ctrl-r)
+- --
+- save as (ctrl-s)
+- print (ctrl-p)
+- cast
+- --
+- View page source (ctrl-u)
+- Inspect (ctrl-C)
+
+https://stackoverflow.com/questions/390992/javascript-parser-in-python
+https://www.w3schools.com/tags/att_iframe_sandbox.asp
+```py
+widget = WebFrame(master, src="https://example.com", width=100, height=100) # tkinter.Canvas subclass
+widget.configure(src='https://example.com') # if SRC is defined it should clear and re-render the webpage
+widget.refresh() # re-renders the page.
+widget.developer_tools() # Open developer tools (new popout window)
+widget.pack(expand=1, fill='both')
+# src:str - Source file
+# srcdoc:str - The HTML doc to render. (view page source) (no scripts)
+# width:int - widget width
+# height:int - widget height
+# allowfullscreen:bool - Set to true if the frame can activate fullscreen mode by calling requestFullscreen()
+# sandbox:str - Enables extra set of restrictions: allow-forms, allow-pointer, allow-pointer-lock, allow-popups, allow-same-origin, allow-scripts, allow-top-navigation
+# cache:bool:str - The folder to store the requests. When true: <working_dir>/.cache/...
+# context_menu:bool - Use the default context_menu.
+# __elements:str - The HTML for the page (with scripts)
+```
+
+
+### Notification
+- Add 2 styles of notifications. One that slides in from a corner (anchor=NE) or pops up in the middle of the screen.
 ### Nav menu
 A widget similar to Tab but can be expanded or iconified
 
 ### TextFormat
 
 A Text Widget but with formatting buttons
+`format` should be a supported MIME type
+
 ```python
 var = StringVar()
 
 t = TextFormat(master,format='html',variable=var)
 t.grid()
-
 ```
 
-### Canvas3D
+### Canvas
 A canvas with a simple 3D engine Mainly made for displaying models.
 - Ambient occlusion
 ```python
-canvas = Canvas3D(master)
+canvas = tkinterplus.Canvas(master)
 canvas.button_controls(panX='<Move>', panY='<Move>', panZ=None, rotX='<x>', rotY='<y>', rotZ='<z>')
 canvas.mouse_controls(panX=True, panY=True, panZ=True, rotX=True, rotY=True, rotZ=True)
 canvas.orbit_gizmo()
 
 d3 = canvas.context('3d') # Add items to the 3D space
-d3.add_cube(offset=(0,0,0), size=(1,1,1), textures={'north', 'south', 'east', 'west', 'up', 'down'}, render_method='opaque|cutout|blend')
+d3.add_cube(offset=(0,0,0), size=(1,1,1), textures=MateralInstances('north', 'south', 'east', 'west', 'up', 'down'), render_method='opaque|cutout|blend')
 
 d2 = canvas.context('2d') # Allows you to add 2D items to the 3D space (Like a HUD)
 d2.add_line()
 
 canvas.grid()
-
 ```
 - texture loading
 - simple shading? (ambient occlusion)
 - skybox
 - raycast func?
 - Render method for shapes
+
+#### Based [three.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene)
+```python
+scene = THREE.Scene()
+camera = THREE.PerspectiveCamera(75, width, height, 0.1, 1000)
+
+renderer = THREE.WebGLRender()
+renderer.setSize(width, height)
+
+geometry = THREE.BoxGeometry(1, 1, 1)
+materal = THREE.MeshBasicMateral(color: 'red')
+cube = THREE.Mesh(geometry, materal)
+scene.add(cube)
+
+camera.position.z = 5
+
+def animate():
+    requestAnimationFrame(animate)
+
+    cube.rotation.x += 0.01
+    cube.rotation.y += 0.01
+    renderer.render(scene, camera)
+
+```
 
 ### Paragraph
 A text that contains multiple lines of text. Can also have special formatting. ie. markdown, HTML, BBCode, etc

@@ -1,7 +1,8 @@
-from tkinter import Tk
+from tkinter import *
 from tkinterplus import Input
 
 root = Tk()
+root.title('Input')
 root.minsize(500,500)
 
 widget1 = Input(root, Input.COLOR)

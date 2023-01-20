@@ -1,18 +1,18 @@
-from tkinter import W, CENTER, E, filedialog, BooleanVar, Entry, Text, IntVar, Radiobutton, Checkbutton, StringVar, OptionMenu, Button, Frame, Tk, Label
+import tkinter
 import os
-
 from .. import Picture
 
-class Form(Frame):
-    def __init__(self,parent:Tk,title=None,description=None,tearoff=False):
-        Frame.__init__(self,parent)
+class Form(tkinter.Frame):
+    def __init__(self,parent:tkinter.Tk,title=None,description=None,tearoff=False):
+        """Construct a form widget with the parent MASTER."""
+        tkinter.Frame.__init__(self,parent)
         self.row=0
         self.column=0
         if title:
-            Label(self,text=title,font=('bold',12)).grid(row=0,column=0,sticky=W)
+            tkinter.Label(self,text=title,font=('bold',12)).grid(row=0,column=0,sticky=tkinter.W)
             self._size(1)
             if description:
-                Label(self,text=description).grid(row=1,column=0,sticky=W)
+                tkinter.Label(self,text=description).grid(row=1,column=0,sticky=tkinter.W)
                 self._size(1)
 
     def _size(self,row=None,colum=None):
@@ -24,13 +24,13 @@ class Form(Frame):
     def _Button(self,name,command=None):
         """Internal function"""
         r,c=self._size()
-        Button(self,text=name,command=command).grid(row=r,column=c,sticky=W)
+        tkinter.Button(self,text=name,command=command).grid(row=r,column=c,sticky=tkinter.W)
         self._size(1)
         
     def _Label(self,text,font=None):
         """Internal function"""
         r,c=self._size()
-        Label(self,text=text,font=font).grid(row=r,column=c,sticky=W)
+        tkinter.Label(self,text=text,font=font).grid(row=r,column=c,sticky=tkinter.W)
         self._size(1)
 
     def _upload(self,multiple,size,**kw):
@@ -41,22 +41,22 @@ class Form(Frame):
 
         if type(multiple) == bool:
             if multiple==True:
-                path = filedialog.askopenfilenames(**kw)
+                path = tkinter.filedialog.askopenfilenames(**kw)
                 for i in path:
                     checkSize(i)
             else:
-                path = filedialog.askopenfilename(**kw)
+                path = tkinter.filedialog.askopenfilename(**kw)
                 checkSize(path)
        
     def add_radio(self,question,*options):
         """Add multiple choice"""
         self._Label(question)
-        tmp=IntVar()
+        tmp=tkinter.IntVar()
         tmp.set(0)
         count=0
         for option in options:
             r,c=self._size()
-            Radiobutton(self,text=option,variable=tmp,value=count).grid(row=r,column=c,sticky=W)
+            tkinter.Radiobutton(self,text=option,variable=tmp,value=count).grid(row=r,column=c,sticky=tkinter.W)
             count+=1
             self._size(1)
 
@@ -65,16 +65,16 @@ class Form(Frame):
         self._Label(question)
         for option in options:
             r,c=self._size()
-            Checkbutton(self,text=option).grid(row=r,column=c,sticky=W)
+            tkinter.Checkbutton(self,text=option).grid(row=r,column=c,sticky=tkinter.W)
             self._size(1)
 
     def add_dropdown(self,question,*options):
         """Add dropdown list"""
         self._Label(question)
-        test=StringVar()
+        test=tkinter.StringVar()
         test.set('Choose')
         r,c=self._size()
-        OptionMenu(self,test,*options).grid(row=r,column=c,sticky=W)
+        tkinter.OptionMenu(self,test,*options).grid(row=r,column=c,sticky=tkinter.W)
         self._size(1)
         
     def add_file(self,question,filetypes=None,multiple=False,maxsize=None):
@@ -116,16 +116,16 @@ class Form(Frame):
         """Add linear scale"""
         self._Label(question)
         r,c=self._size()
-        scale = Frame(self)
-        SCALE = IntVar()
+        scale = tkinter.Frame(self)
+        SCALE = tkinter.IntVar()
         count=from_
         for i in range(to):
-            Label(scale,text=str(count),justify=CENTER).grid(row=0,column=i+1)
-            Radiobutton(scale,variable=SCALE,value=count,justify=CENTER).grid(row=1,column=i+1)
+            tkinter.Label(scale,text=str(count),justify=tkinter.CENTER).grid(row=0,column=i+1)
+            tkinter.Radiobutton(scale,variable=SCALE,value=count,justify=tkinter.CENTER).grid(row=1,column=i+1)
             count+=1
-        Label(scale,text=start).grid(row=1,column=0,sticky=E)
-        Label(scale,text=end).grid(row=1,column=to+1,sticky=W)
-        scale.grid(row=r,column=c,sticky=W)
+        tkinter.Label(scale,text=start).grid(row=1,column=0,sticky=tkinter.E)
+        tkinter.Label(scale,text=end).grid(row=1,column=to+1,sticky=tkinter.W)
+        scale.grid(row=r,column=c,sticky=tkinter.W)
         self._size(1)
 
     def add_radio_grid(self,question,row,column):
@@ -133,29 +133,29 @@ class Form(Frame):
         self._Label(question)
         r,c=self._size()
 
-        grid = Frame(self)
+        grid = tkinter.Frame(self)
 
         values=[]
 
         countr=0
         countc=0
         for rr in row:
-            Label(grid,text=rr).grid(row=countr+1,column=0)
-            values.append(IntVar())
+            tkinter.Label(grid,text=rr).grid(row=countr+1,column=0)
+            values.append(tkinter.IntVar())
             values[countr].set(-1)
             countr+=1
         for cc in column:
-            Label(grid,text=cc).grid(row=0,column=countc+1)
+            tkinter.Label(grid,text=cc).grid(row=0,column=countc+1)
             countc+=1
 
         countrr=0
         for rr in row:
             countcc=0
             for cc in column:
-                Radiobutton(grid,variable=values[countrr],value=countcc).grid(row=countrr+1,column=countcc+1)                
+                tkinter.Radiobutton(grid,variable=values[countrr],value=countcc).grid(row=countrr+1,column=countcc+1)                
                 countcc+=1
             countrr+=1
-        grid.grid(row=r,column=c,sticky=W)
+        grid.grid(row=r,column=c,sticky=tkinter.W)
         self._size(1)
 
     def add_checkbox_grid(self,question,row,column):
@@ -163,21 +163,21 @@ class Form(Frame):
         self._Label(question)
         r,c=self._size()
 
-        grid=Frame(self)
+        grid=tkinter.Frame(self)
 
         values=[]
 
         countr=0
         countc=0
         for rr in row:
-            Label(grid,text=rr).grid(row=countr+1,column=0)
+            tkinter.Label(grid,text=rr).grid(row=countr+1,column=0)
             countr+=1
         for cc in column:
-            Label(grid,text=cc).grid(row=0,column=countc+1)
+            tkinter.Label(grid,text=cc).grid(row=0,column=countc+1)
             countc+=1
 
         for temp in range(len(row+column)+3):
-            values.append(BooleanVar())
+            values.append(tkinter.BooleanVar())
             values[temp].set(False)
 
         countrr=0
@@ -185,12 +185,12 @@ class Form(Frame):
         for rr in row:
             countcc=0
             for cc in column:
-                Checkbutton(grid,variable=values[total],onvalue=True,offvalue=False).grid(row=countrr+1,column=countcc+1)                
+                tkinter.Checkbutton(grid,variable=values[total],onvalue=True,offvalue=False).grid(row=countrr+1,column=countcc+1)                
                 countcc+=1
                 total+=1
             countrr+=1
 
-        grid.grid(row=r,column=c,sticky=W)
+        grid.grid(row=r,column=c,sticky=tkinter.W)
         self._size(1)
 
     def add_short_answer(self,question):
@@ -198,7 +198,7 @@ class Form(Frame):
         self._Label(question)
         r, c = self._size()
         # Label(self,text=question).grid(row=r,column=c,sticky=W)
-        Entry(self).grid(row=r+1,column=c,sticky=W)
+        tkinter.Entry(self).grid(row=r+1,column=c,sticky=tkinter.W)
         self._size(2)
 
     def add_paragraph(self,question):
@@ -206,7 +206,7 @@ class Form(Frame):
         self._Label(question)
         r, c = self._size()
         # Label(self,text=question).grid(row=r,column=c,sticky=W)
-        Text(self,width=16,height=1).grid(row=r+1,column=c,sticky=W)
+        tkinter.Text(self,width=16,height=1).grid(row=r+1,column=c,sticky=tkinter.W)
         self._size(2)
 
     def add_title(self,title,description=None):
@@ -221,7 +221,7 @@ class Form(Frame):
         if title:
             self._Label(title)
         r, c = self._size()
-        Picture(self,file,**kw).grid(row=r,column=c,sticky=W)
+        Picture(self,file,**kw).grid(row=r,column=c,sticky=tkinter.W)
         self._size(1)
 
     def add_submit_button(self,command):

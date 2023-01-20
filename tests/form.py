@@ -1,7 +1,8 @@
-from tkinter import Tk
+from tkinter import *
 from tkinterplus import Form
 
 root = Tk()
+root.title('Form')
 root.minsize(500,500)
 
 def submit(data):

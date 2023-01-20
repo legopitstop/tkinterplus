@@ -5,7 +5,7 @@ LOCAL = os.path.dirname(os.path.realpath(__file__))
 with open('README.md') as f:
     long_description = f.read()
 
-required_modules = ["Pillow", "pygame"]
+required_modules = ["Pillow", "pygame", 'colour']
 
 setuptools.setup(
     name='tkinterplus',

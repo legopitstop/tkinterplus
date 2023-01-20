@@ -1,7 +1,8 @@
-from tkinter import BOTH, Tk, Text
+from tkinter import *
 from tkinterplus import ContextMenu, ContextMenuType
 
 root = Tk()
+root.title('ContextMenu')
 root.minsize(500,500)
 
 textarea = Text(root)
