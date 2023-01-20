@@ -1,5 +1,5 @@
 """NOTE This widget is still being worked on. Expect issues for missing features!"""
-from tkinter import Frame
+import tkinter
 import tkinter
 
 from . import Footer, Modal
@@ -20,7 +20,7 @@ class ModalDialog():
         self.modal.title(self.options.get('title'))
         self.modal.protocol('WM_DELETE_WINDOW', self.modal.destroy)
 
-        self.frame = Frame(self.modal, bg='white')
+        self.frame = tkinter.Frame(self.modal, bg='white')
         self.frame.grid(row=0,column=0, ipadx=15, ipady=15, sticky='nesw')
 
         self.footer = Footer(self.modal)

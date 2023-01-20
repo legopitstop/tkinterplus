@@ -1,7 +1,5 @@
 """NOTE This widget is still being worked on. Expect issues for missing features!"""
-from tkinter import *
-from tkinter import _get_temp_root, _destroy_temp_root
-
+import tkinter
 from .modalbox import showwarning
 from . import Modal
 
@@ -20,9 +18,9 @@ class SimpleDialog:
 
         _setup_dialog(self.root)
 
-        self.message = Message(self.root, text=text, aspect=400)
-        self.message.pack(expand=1, fill=BOTH)
-        self.frame = Frame(self.root)
+        self.message = tkinter.Message(self.root, text=text, aspect=400)
+        self.message.pack(expand=1, fill=tkinter.BOTH)
+        self.frame = tkinter.Frame(self.root)
         self.frame.pack()
         self.num = default
         self.cancel = cancel
@@ -30,11 +28,11 @@ class SimpleDialog:
         self.root.bind('<Return>', self.return_event)
         for num in range(len(buttons)):
             s = buttons[num]
-            b = Button(self.frame, text=s,
+            b = tkinter.Button(self.frame, text=s,
                        command=(lambda self=self, num=num: self.done(num)))
             if num == default:
-                b.config(relief=RIDGE, borderwidth=8)
-            b.pack(side=LEFT, fill=BOTH, expand=1)
+                b.config(relief=tkinter.RIDGE, borderwidth=8)
+            b.pack(side=tkinter.LEFT, fill=tkinter.BOTH, expand=1)
         self.root.protocol('WM_DELETE_WINDOW', self.wm_delete_window)
         self.root.transient(master)
         _place_window(self.root, master)
@@ -80,7 +78,7 @@ class Dialog(Modal):
         '''
         master = parent
         if master is None:
-            master = _get_temp_root()
+            master = tkinter._get_temp_root()
 
         Modal.__init__(self, master)
 
@@ -96,7 +94,7 @@ class Dialog(Modal):
 
         self.result = None
 
-        body = Frame(self)
+        body =tkinter.Frame(self)
         self.initial_focus = self.body(body)
         body.pack(padx=5, pady=5)
 
@@ -119,8 +117,8 @@ class Dialog(Modal):
     def destroy(self):
         '''Destroy the window'''
         self.initial_focus = None
-        Toplevel.destroy(self)
-        _destroy_temp_root(self.master)
+        tkinter.Toplevel.destroy(self)
+        tkinter._destroy_temp_root(self.master)
 
     #
     # construction hooks
@@ -140,12 +138,12 @@ class Dialog(Modal):
         override if you do not want the standard buttons
         '''
 
-        box = Frame(self)
+        box = tkinter.Frame(self)
 
-        w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
-        w.pack(side=LEFT, padx=5, pady=5)
-        w = Button(box, text="Cancel", width=10, command=self.cancel)
-        w.pack(side=LEFT, padx=5, pady=5)
+        w = tkinter.Button(box, text="OK", width=10, command=self.ok, default=tkinter.ACTIVE)
+        w.pack(side=tkinter.LEFT, padx=5, pady=5)
+        w = tkinter.Button(box, text="Cancel", width=10, command=self.cancel)
+        w.pack(side=tkinter.LEFT, padx=5, pady=5)
 
         self.bind("<Return>", self.ok)
         self.bind("<Escape>", self.cancel)
@@ -257,15 +255,15 @@ class _QueryDialog(Dialog):
 
     def body(self, master):
 
-        w = Label(master, text=self.prompt, justify=LEFT)
-        w.grid(row=0, padx=5, sticky=W)
+        w = tkinter.Label(master, text=self.prompt, justify=tkinter.LEFT)
+        w.grid(row=0, padx=5, sticky=tkinter.W)
 
-        self.entry = Entry(master, name="entry")
-        self.entry.grid(row=1, padx=5, sticky=W+E)
+        self.entry = tkinter.Entry(master, name="entry")
+        self.entry.grid(row=1, padx=5, sticky=tkinter.W+tkinter.E)
 
         if self.initialvalue is not None:
             self.entry.insert(0, self.initialvalue)
-            self.entry.select_range(0, END)
+            self.entry.select_range(0, tkinter.END)
 
         return self.entry
 
@@ -384,7 +382,7 @@ def askstring(title, prompt, **kw):
 if __name__ == '__main__':
 
     def test():
-        root = Tk()
+        root = tkinter.Tk()
         def doit(root=root):
             d = SimpleDialog(root,
                          text="This is a test dialog.  "
@@ -401,9 +399,9 @@ if __name__ == '__main__':
             print(askfloat("Spam", "Egg weight\n(in tons)", minvalue=1,
                            maxvalue=100))
             print(askstring("Spam", "Egg label"))
-        t = Button(root, text='Test', command=doit)
+        t = tkinter.Button(root, text='Test', command=doit)
         t.pack()
-        q = Button(root, text='Quit', command=t.quit)
+        q = tkinter.Button(root, text='Quit', command=t.quit)
         q.pack()
         t.mainloop()
 

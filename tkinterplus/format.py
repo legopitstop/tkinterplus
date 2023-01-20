@@ -1,8 +1,7 @@
-from re import L
-from tkinter import CENTER, END, LEFT, RIGHT, StringVar, Text, Variable
+import tkinter
+import uuid
 from tkinter.font import Font
 from enum import Enum
-import uuid
 
 class StyleType(Enum):
     BOLD = 'bold'
@@ -26,7 +25,7 @@ class StyleType(Enum):
 class FormatVar():
     def __init__(self, master=None, value=None, name=None):
         """A Combination of StringVar + Text widget allowing you to create styled text"""
-        self.variable = StringVar(master, name)
+        self.variable = tkinter.StringVar(master, name)
         self.lines = []
         self.styles = []
         self.traces = []
@@ -71,9 +70,9 @@ class FormatVar():
         """Returns with the areas style type"""
         s = []
         for style in self.styles:
-            if style.index1 == END: i1 = self._end()
+            if style.index1 == tkinter.END: i1 = self._end()
             else: i1 = style.index1
-            if style.index2 == END: i2 = self._end()
+            if style.index2 == tkinter.END: i2 = self._end()
             else: i2 = style.index2
             if self._in_range(index, i1, i2):
                 s.append(style)
@@ -88,9 +87,9 @@ class FormatVar():
         """Remove styleing from the index1 to index2"""
         pass
 
-    def apply_style(self, widget:Text):
+    def apply_style(self, widget:tkinter.Text):
         """Apply the styling to the text widget"""
-        if isinstance(widget, Text):
+        if isinstance(widget, tkinter.Text):
             print('apply style')
             for s in self.styles:
                 s.apply_style(widget)
@@ -110,7 +109,7 @@ class FormatVar():
 
     def index(self, value:float):
         """Returns a tuple (Y, X)"""
-        if value==END: value = self._end()
+        if value==tkinter.END: value = self._end()
         elif isinstance(value, str):
             print('FormatVar.index() String eval not implemented yet!', value)
             # Example: 'end-1c' (takes the end and subtracts 1 character)
@@ -199,7 +198,7 @@ class FormatVar():
         else: raise ValueError('Value must be ["read", "write"]')
 
     def trace_remove(self, mode:str, cbname:str=None): self.variable.trace_remove(mode, cbname)
-    def get_all(self): return self.get(0.0, END)
+    def get_all(self): return self.get(0.0, tkinter.END)
 
 class Style():
     def __init__(self, variable:FormatVar, type:StyleType, index1:float, index2: float, name:str=None, color:str=None):
@@ -229,15 +228,15 @@ class Style():
         if 'color' in kw and kw['color']!=None: self.color = kw['color']
     config = configure
 
-    def apply_style(self, widget:Text):
+    def apply_style(self, widget:tkinter.Text):
         """Apply the style tag to the widget"""
-        if isinstance(widget, Text):
+        if isinstance(widget, tkinter.Text):
             widget.tag_add(self.name, self.index1, self.index2)
             if self.type==StyleType.BOLD: widget.tag_configure(self.name, font=Font(weight='bold'))
             elif self.type==StyleType.UNDERLINED: widget.tag_config(self.name, font=Font(underline=True))
-            elif self.type==StyleType.ALIGN_LEFT: widget.tag_configure(self.name, justify=LEFT)
-            elif self.type==StyleType.ALIGN_CENTER: widget.tag_configure(self.name, justify=CENTER)
-            elif self.type==StyleType.ALIGN_RIGHT: widget.tag_configure(self.name, justify=RIGHT)
+            elif self.type==StyleType.ALIGN_LEFT: widget.tag_configure(self.name, justify=tkinter.LEFT)
+            elif self.type==StyleType.ALIGN_CENTER: widget.tag_configure(self.name, justify=tkinter.CENTER)
+            elif self.type==StyleType.ALIGN_RIGHT: widget.tag_configure(self.name, justify=tkinter.RIGHT)
             elif self.type==StyleType.STRIKETHROUGH: widget.tag_configure(self.name, font=Font(overstrike=True))
             elif self.type==StyleType.ITALIC: widget.tag_configure(self.name, font=Font(slant='italic'))
             elif self.type==StyleType.FOREGROUND_COLOR: widget.tag_configure(self.name, foreground=self.color)
@@ -255,6 +254,6 @@ if __name__ == '__main__':
     t.set('Hello\nWorld')
     # t.add_style(1.0, END, StyleType.BOLD)
     # t.delete(1.0, 1.4)
-    print('"%s"'%t.get(1.0, END))
+    print('"%s"'%t.get(1.0, tkinter.END))
 
     root.mainloop()

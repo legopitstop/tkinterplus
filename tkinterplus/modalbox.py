@@ -1,10 +1,9 @@
 """NOTE This widget is still being worked on. Expect issues for missing features!"""
-from tkinter import EW, LEFT, W, Label
-from tkinter.messagebox import INFO, WARNING, ERROR, QUESTION, OK, YESNO, YESNOCANCEL, OKCANCEL, CANCEL, YES, RETRY, RETRYCANCEL, NO
+import tkinter
 import winsound
 import platform
-
-from . import TK_INFO,TK_WARNING, TK_ERROR, TK_QUESTION, Icon
+from tkinter.messagebox import INFO, WARNING, ERROR, QUESTION, OK, YESNO, YESNOCANCEL, OKCANCEL, CANCEL, YES, RETRY, RETRYCANCEL, NO
+from . import Asset, Icon
 from .modaldialog import ModalDialog
 
 def playsound(widget, sound:str):
@@ -19,49 +18,49 @@ class Message(ModalDialog):
 
     def body(self):
         if self.options.get('icon') == 'info':
-            self.frame._img = Icon(TK_INFO)
+            self.frame._img = Icon(Asset.TK_INFO)
             playsound(self.frame, 'SystemQuestion')
 
         elif self.options.get('icon') == 'warning':
-            self.frame._img = Icon(TK_WARNING)
+            self.frame._img = Icon(Asset.TK_WARNING)
             playsound(self.frame, 'SystemExclamation')
 
         elif self.options.get('icon') == 'error':
-            self.frame._img = Icon(TK_ERROR)
+            self.frame._img = Icon(Asset.TK_ERROR)
             playsound(self.frame, 'SystemHand')
 
         elif self.options.get('icon') == 'question':
-            self.frame._img = Icon(TK_QUESTION)
+            self.frame._img = Icon(Asset.TK_QUESTION)
             playsound(self.frame, 'SystemQuestion')
 
         elif self.options.get('icon') != None:
             self.frame._img = Icon(self.options.get('icon'))
             self.frame.bell()
 
-        self.icon = Label(self.frame, image=self.frame._img, compound=LEFT, width=45, height=45, bg='white')
-        self.icon.grid(row=0,column=0, padx=(15, 0), sticky=W)
+        self.icon = tkinter.Label(self.frame, image=self.frame._img, compound=tkinter.LEFT, width=45, height=45, bg='white')
+        self.icon.grid(row=0,column=0, padx=(15, 0), sticky=tkinter.W)
 
-        self.msg = Label(self.frame, text=self.options.get('message'), bg='white', justify=LEFT, wraplength=445, anchor=W)
-        self.msg.grid(row=0,column=1, sticky=EW)
+        self.msg = tkinter.Label(self.frame, text=self.options.get('message'), bg='white', justify=tkinter.LEFT, wraplength=445, anchor=tkinter.W)
+        self.msg.grid(row=0,column=1, sticky=tkinter.EW)
 
         self.frame.grid_columnconfigure(1, weight=1)
 
-        btn_options = {'padx': 10, 'pady': 10, 'ipadx': 1, 'ipady': 0}
+        btn_options = {}
         if self.options.get('type') == OK:
-            self.footer.add_button('OK', self.modal.destroy, **btn_options)
+            self.footer.add_button(text='OK', command=self.modal.destroy, **btn_options)
         elif self.options.get('type') == OKCANCEL:
-            self.footer.add_button('OK', self.modal.destroy, **btn_options)
-            self.footer.add_button('Cancel', self.modal.destroy, **btn_options)
+            self.footer.add_button(text='OK', command=self.modal.destroy, **btn_options)
+            self.footer.add_button(text='Cancel', command=self.modal.destroy, **btn_options)
         elif self.options.get('type') == YESNO:
-            self.footer.add_button('Yes', self.modal.destroy, **btn_options)
-            self.footer.add_button('No', self.modal.destroy, **btn_options)
+            self.footer.add_button(text='Yes', command=self.modal.destroy, **btn_options)
+            self.footer.add_button(text='No', commnad=self.modal.destroy, **btn_options)
         elif self.options.get('type') == YESNOCANCEL:
-            self.footer.add_button('Yes', self.modal.destroy, **btn_options)
-            self.footer.add_button('No', self.modal.destroy, **btn_options)
-            self.footer.add_button('Cancel', self.modal.destroy, **btn_options)
+            self.footer.add_button(text='Yes', command=self.modal.destroy, **btn_options)
+            self.footer.add_button(text='No', command=self.modal.destroy, **btn_options)
+            self.footer.add_button(text='Cancel', command=self.modal.destroy, **btn_options)
         elif self.options.get('type') == RETRYCANCEL:
-            self.footer.add_button('Retry', self.modal.destroy, **btn_options)
-            self.footer.add_button('Cancel', self.modal.destroy, **btn_options)
+            self.footer.add_button(text='Retry', command=self.modal.destroy, **btn_options)
+            self.footer.add_button(text='Cancel', command=self.modal.destroy, **btn_options)
         
 
 def _show(title=None, message=None, _icon=None, _type=None, **options):

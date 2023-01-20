@@ -1,8 +1,8 @@
-from PIL import Image
-from PIL.Image import Resampling
 import json
 import os
 import builtins
+from PIL import Image
+from PIL.Image import Resampling
 
 class Sprite():
     def __init__(self, row:int, column:int, name:str=None, fp:str=None):
