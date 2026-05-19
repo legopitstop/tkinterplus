@@ -1,45 +1,92 @@
+from typing import Self
 import tkinter
+
 from .. import MaterialIcon
 
+__all__ = ["Accordion"]
+
+
 class Accordion(tkinter.Misc):
-    def __init__(self, master:tkinter.Tk, text:str=None, image:str=None, textvariable:tkinter.StringVar=None, bg:str=None, background_header:str=None, disabled_foreground_header:str=None, active_background_header:str=None, active_foreground_header:str=None, foreground_header:str=None, show_icon:str=None, hide_icon:str=None, name:str=None, variable:tkinter.StringVar=None, state:str=None, font=None):
+    def __init__(
+        self,
+        master: tkinter.Tk = None,
+        text: str = None,
+        image: str = None,
+        textvariable: tkinter.StringVar = None,
+        bg: str = None,
+        background_header: str = None,
+        disabled_foreground_header: str = None,
+        active_background_header: str = None,
+        active_foreground_header: str = None,
+        foreground_header: str = None,
+        show_icon: str = None,
+        hide_icon: str = None,
+        name: str = None,
+        variable: tkinter.StringVar = None,
+        state: str = None,
+        font=None,
+        **kw
+    ):
         """Construct an accordion widget with the parent MASTER."""
-        if master is None: master = tkinter._get_temp_root()
+        if master is None:
+            master = tkinter._get_temp_root()
 
         # Other Args
         self.visable = False
         self.textvariable = tkinter.StringVar()
-        self.textvariable.set('Accordion')
+        self.textvariable.set("Accordion")
         self.text = None
-        self.bg = '#f0f0f0'
-        self.background_header = 'white'
-        self.foreground_header = 'black'
-        self.disabled_foreground_header = 'red'
-        self.active_background_header = 'white'
-        self.active_foreground_header = 'black'
-        self.show_icon = 'expand_more'
-        self.hide_icon = 'expand_less'
+        self.bg = "#f0f0f0"
+        self.background_header = "white"
+        self.foreground_header = "black"
+        self.disabled_foreground_header = "red"
+        self.active_background_header = "white"
+        self.active_foreground_header = "black"
+        self.show_icon = "expand_more"
+        self.hide_icon = "expand_less"
         self.width = 100
         self.height = 100
         self.variable = tkinter.StringVar()
         self.image = None
-        self.state = tkinter.NORMAL # NORMAL, DISABLED, ACTIVE
+        self.state = tkinter.NORMAL  # NORMAL, DISABLED, ACTIVE
         # TODO remove self.visable and use self.state instead
 
         # Widgets
-        self.SHOW_ICON = MaterialIcon(self.show_icon, color=self.foreground_header, size=(30, 30))
-        self.HIDE_ICON = MaterialIcon(self.hide_icon, color=self.foreground_header, size=(30, 30))
+        self.SHOW_ICON = MaterialIcon(
+            self.show_icon, color=self.foreground_header, size=(30, 30)
+        )
+        self.HIDE_ICON = MaterialIcon(
+            self.hide_icon, color=self.foreground_header, size=(30, 30)
+        )
 
         self._container = tkinter.Frame(master)
-        self._header = tkinter.Frame(self._container, bg=self.background_header, cursor='hand2')
-        self._label = tkinter.Label(self._header, textvariable=self.textvariable, compound=tkinter.LEFT, image=self.image, bg=self.background_header, fg=foreground_header, anchor=tkinter.W)
-        self._label.grid(row=0,column=0, sticky=tkinter.EW, ipadx=5, ipady=2)
+        self._header = tkinter.Frame(
+            self._container, bg=self.background_header, cursor="hand2"
+        )
+        self._label = tkinter.Label(
+            self._header,
+            textvariable=self.textvariable,
+            compound=tkinter.LEFT,
+            image=self.image,
+            bg=self.background_header,
+            fg=foreground_header,
+            anchor=tkinter.W,
+        )
+        self._label.grid(row=0, column=0, sticky=tkinter.EW, ipadx=5, ipady=2)
 
-        self._icon = tkinter.Label(self._header, image=self.SHOW_ICON, width=23, height=23, bg=self.background_header)
-        self._icon.grid(row=0,column=1, sticky=tkinter.E)
+        self._icon = tkinter.Label(
+            self._header,
+            image=self.SHOW_ICON,
+            width=23,
+            height=23,
+            bg=self.background_header,
+        )
+        self._icon.grid(row=0, column=1, sticky=tkinter.E)
 
-        self._header.grid(row=0,column=0, ipadx=10, ipady=2, sticky=tkinter.EW)
-        self.content = tkinter.Frame(self._container, bg=self.bg, width=self.width, height=self.height)
+        self._header.grid(row=0, column=0, ipadx=10, ipady=2, sticky=tkinter.EW)
+        self.content = tkinter.Frame(
+            self._container, bg=self.bg, width=self.width, height=self.height
+        )
 
         # Arguments for tk
         self.master = master
@@ -67,59 +114,70 @@ class Accordion(tkinter.Misc):
             state=state,
             disabled_foreground_header=disabled_foreground_header,
             active_foreground_header=active_foreground_header,
-            active_background_header=active_background_header
+            active_background_header=active_background_header,
+            font=font,
+            **kw
         )
 
-    def configure(self, **kw):
-        if 'text' in kw and kw['text']!=None:
-            self.text = kw['text']
+    def configure(self, **kw) -> Self:
+        if "text" in kw and kw["text"] != None:
+            self.text = kw.pop("text")
             self.textvariable.set(self.text)
 
-        if 'image' in kw and kw['image']!=None:
-            self.image = kw['image']
+        if "image" in kw and kw["image"] != None:
+            self.image = kw.pop("image")
             self._label.configure(image=self.image)
-        
-        if 'textvariable' in kw and kw['textvariable']!=None: self.textvariable = kw['textvariable']
-        if 'disabled_foreground_header' in kw and kw['disabled_foreground_header']!=None: self.disabled_foreground_header = kw['disabled_foreground_header']
-        if 'active_background_header' in kw and kw['active_background_header']!=None: self.active_background_header = kw['active_background_header']
-        if 'active_foreground_header' in kw and kw['active_foreground_header']!=None: self.active_foreground_header = kw['active_foreground_header']
-        if 'name' in kw and kw['name']!=None: self.name = kw['name']
-        if 'variable' in kw and kw['variable']!=None: self.variable = kw['variable']
 
-        if 'width' in kw and kw['width']!=None:
-            self.width = kw['width']
+        if "textvariable" in kw and kw["textvariable"] != None:
+            self.textvariable = kw.pop("textvariable")
+        if (
+            "disabled_foreground_header" in kw
+            and kw["disabled_foreground_header"] != None
+        ):
+            self.disabled_foreground_header = kw.pop("disabled_foreground_header")
+        if "active_background_header" in kw and kw["active_background_header"] != None:
+            self.active_background_header = kw.pop("active_background_header")
+        if "active_foreground_header" in kw and kw["active_foreground_header"] != None:
+            self.active_foreground_header = kw.pop("active_foreground_header")
+        if "name" in kw and kw["name"] != None:
+            self.name = kw.pop("name")
+        if "variable" in kw and kw["variable"] != None:
+            self.variable = kw.pop("variable")
+
+        if "width" in kw and kw["width"] != None:
+            self.width = kw.pop("width")
             self.content.configure(width=self.width)
 
-        if 'height' in kw and kw['height']!=None:
-            self.height = kw['height']
+        if "height" in kw and kw["height"] != None:
+            self.height = kw.pop("height")
             self.content.configure(height=self.height)
 
-        if 'bg' in kw and kw['bg']!=None:
-            self.bg = kw['bg']
+        if "bg" in kw and kw["bg"] != None:
+            self.bg = kw.pop("bg")
             self.content.configure(bg=self.bg)
 
-        if 'background_header' in kw and kw['background_header']!=None:
-            self.background_header = kw['background_header']
+        if "background_header" in kw and kw["background_header"] != None:
+            self.background_header = kw.pop("background_header")
             self._label.configure(bg=self.background_header)
             self._icon.configure(bg=self.background_header)
             self._header.configure(bg=self.background_header)
 
-        if 'foreground_header' in kw and kw['foreground_header']!=None:
-            self.foreground_header = kw['foreground_header']
+        if "foreground_header" in kw and kw["foreground_header"] != None:
+            self.foreground_header = kw.pop("foreground_header")
             self._label.configure(fg=self.foreground_header)
             self.SHOW_ICON.configure(color=self.foreground_header)
             self.HIDE_ICON.configure(color=self.foreground_header)
 
-        if 'show_icon' in kw and kw['show_icon']!=None:
-            self.show_icon = kw['show_icon']
+        if "show_icon" in kw and kw["show_icon"] != None:
+            self.show_icon = kw.pop("show_icon")
             self.SHOW_ICON.configure(name=self.show_icon, color=self.foreground_header)
 
-        if 'hide_icon' in kw and kw['hide_icon']!=None:
-            self.hide_icon = kw['hide_icon']
+        if "hide_icon" in kw and kw["hide_icon"] != None:
+            self.hide_icon = kw.pop("hide_icon")
             self.HIDE_ICON.configure(name=self.hide_icon, color=self.foreground_header)
 
-        if 'state' in kw and kw['state']!=None:
-            self.state = kw['state']
+        if "state" in kw and kw["state"] != None:
+            self.state = kw.pop("state")
             if self.state == tkinter.DISABLED:
                 self.SHOW_ICON.configure(color=self.disabled_foreground_header)
                 self.HIDE_ICON.configure(color=self.disabled_foreground_header)
@@ -130,56 +188,78 @@ class Accordion(tkinter.Misc):
             elif self.state == tkinter.ACTIVE:
                 self.SHOW_ICON.configure(color=self.active_foreground_header)
                 self.HIDE_ICON.configure(color=self.active_foreground_header)
-                self._icon.configure(bg=self.active_background_header, image=self.HIDE_ICON)
-                self._label.configure(bg=self.active_background_header, fg=self.active_foreground_header)
+                self._icon.configure(
+                    bg=self.active_background_header, image=self.HIDE_ICON
+                )
+                self._label.configure(
+                    bg=self.active_background_header, fg=self.active_foreground_header
+                )
                 self._header.configure(bg=self.active_background_header)
             else:
                 self.SHOW_ICON.configure(color=self.foreground_header)
                 self.HIDE_ICON.configure(color=self.foreground_header)
-                self._label.configure(bg=self.background_header, fg=self.foreground_header)
-                self._icon.configure(bg=self.background_header, fg=self.foreground_header, image=self.SHOW_ICON)
+                self._label.configure(
+                    bg=self.background_header, fg=self.foreground_header
+                )
+                self._icon.configure(
+                    bg=self.background_header,
+                    fg=self.foreground_header,
+                    image=self.SHOW_ICON,
+                )
                 self._header.configure(bg=self.background_header)
-        
+
         self.update()
+        return self
+
     config = configure
 
-    def update(self):
+    def update(self) -> None:
         """updates the icons"""
         # Update widget state
-        self._label.unbind('<Button-1>')
-        self._icon.unbind('<Button-1>')
-        if self.state!=tkinter.DISABLED:
-            self._label.bind('<Button-1>', lambda e: self._toggle())
-            self._icon.bind('<Button-1>', lambda e: self._toggle())
-            self.variable.trace_add('write', self._variable_update)
+        self._label.unbind("<Button-1>")
+        self._icon.unbind("<Button-1>")
+        if self.state != tkinter.DISABLED:
+            self._label.bind("<Button-1>", lambda e: self._toggle())
+            self._icon.bind("<Button-1>", lambda e: self._toggle())
+            self.variable.trace_add("write", self._variable_update)
 
-    def _variable_update(self, a, b, c):
+    def _variable_update(self, a, b, c) -> None:
         v = self.variable.get()
-        if v!=self.name and v!='': self.hide()
+        if v != self.name and v != "":
+            self.hide()
 
-    def _toggle(self):
-        if self.state==tkinter.ACTIVE: self.hide()
-        else: self.show()
+    def _toggle(self) -> None:
+        if self.state == tkinter.ACTIVE:
+            self.hide()
+        else:
+            self.show()
 
-    def show(self):
+    def show(self) -> None:
         """Expand the accordion"""
-        if self.state==tkinter.NORMAL:
+        if self.state == tkinter.NORMAL:
             self.configure(state=tkinter.ACTIVE)
-            self.content.grid(row=1,column=0, sticky='nesw')
+            self.content.grid(row=1, column=0, sticky="nesw")
             self.variable.set(self.name)
 
-    def hide(self):
+    def hide(self) -> None:
         """Shrink the accordion"""
         if self.state == tkinter.ACTIVE:
             self.configure(state=tkinter.NORMAL)
             self.content.grid_forget()
-            if self.variable.get() == self.name: self.variable.set('')
+            if self.variable.get() == self.name:
+                self.variable.set("")
 
-    def grid_configure(self, **kw): self._container.grid_configure(**kw)
+    def grid_configure(self, **kw) -> None:
+        self._container.grid_configure(**kw)
+
     grid = grid_configure
-    
-    def place_configure(self, **kw): self._container.place_configure(**kw)
+
+    def place_configure(self, **kw) -> None:
+        self._container.place_configure(**kw)
+
     place = place_configure
-    
-    def pack_configure(self, **kw): self._container.pack_configure(**kw)
+
+    def pack_configure(self, **kw) -> None:
+        self._container.pack_configure(**kw)
+
     pack = pack_configure

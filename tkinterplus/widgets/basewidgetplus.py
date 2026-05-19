@@ -2,7 +2,12 @@
 import tkinter
 from .. import Animation
 
-class BaseWidgetPlus(Animation, tkinter.Misc):
+__all__ = ["BaseWidgetPlus"]
+
+
+class BaseWidgetPlus(tkinter.Misc):
     def __init__(self, master):
-        Animation.__init__(self, self)
-        tkinter.Misc.__init__(self)
+        # Animation.__init__(self, self)
+        # self.master = master
+        super().__init__()
+        self.master = master
